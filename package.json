@@ -1,0 +1,30 @@
+{
+  "name": "todo-cli",
+  "version": "0.1.0",
+  "description": "todo-cli use trello",
+  "main": "index.js",
+  "bin": {
+    "todo": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miyabisun/todo-cli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miyabisun/todo-cli/issues"
+  },
+  "homepage": "https://github.com/miyabisun/todo-cli#readme",
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "livescript": "^1.6.0",
+    "node-fetch": "2",
+    "ramda": "^0.27.1",
+    "yargs": "^17.3.0"
+  }
+}
