@@ -22,16 +22,16 @@ module.exports =
       doing-list = board.lists.find (.name is \Doing)
       doing-card = board.cards.find (.id-list is doing-list.id)
       if doing-card
-        {id-short, name} = doing-card
-        console.info "#id-short: #name"
+        {name} = doing-card
+        console.info name
         return
 
       todo-list = board.lists.find (.name is "To Do")
       todo-card = board.cards.find (.id-list is todo-list.id)
       if todo-card
-        {id-short, name} = todo-card
+        {name, id-short} = todo-card
         await start.handler {id: [id-short]}
-        console.info "#id-short: #name"
+        console.info name
         return
     catch
       console.error e
