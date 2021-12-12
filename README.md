@@ -18,6 +18,7 @@ $ todo -h
 todo [コマンド]
 
 コマンド:
+  todo add <name...>  create card to To Do list
   todo close [id...]  delete cards in Done list
   todo done [id...]   move card to Done list
   todo init <name>    initialize board (create board and lists)
