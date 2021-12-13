@@ -2,27 +2,9 @@ require! {
   \node-fetch : fetch
   ramda: R
   \../modules/config
+  \../modules/boards : boards
+  \../modules/lists : lists
 }
-
-find-board = (login, name) ->>
-  res = await fetch "https://api.trello.com/1/members/me/boards?fields=name&lists=open&key=#{login.key}&token=#{login.token}"
-  (await res.json!).find (.name is name)
-
-has-lists = (board, name) ->
-  board.lists
-  |> R.map (.name)
-  |> R.includes name, _
-
-create-list = (login, board, name) ->>
-  res = await fetch "https://api.trello.com/1/boards/#{board.id}/lists?key=#{login.key}&token=#{login.token}",
-    method: \POST
-    headers:
-      Accept: \application/json
-      \Content-Type : \application/json
-    body: JSON.stringify do
-      name: name
-      pos: \bottom
-  throw res if res.status isnt 200
 
 module.exports =
   command: "select <name>"
@@ -39,7 +21,7 @@ module.exports =
       return
     {name, init} = argv
     try
-      board = await find-board login, name
+      board = await boards.find name
       unless board
         console.error "not found '#name' board."
         if init
@@ -52,15 +34,15 @@ module.exports =
               name: name
               default-lists: false
           throw res if res.status isnt 200
-          board = await find-board login, name
+          board = await boards.find name
           console.info "create '#name' board."
         else return
 
       for n in ["To Do", \Doing, \Done]
-        continue if has-lists board, n
+        continue if n in board.lists.map (.name)
         console.error "'#n' list is insufficient."
         if init
-          await create-list login, board, n
+          await lists.create board, n
           console.info "create '#n' list."
         else return
 

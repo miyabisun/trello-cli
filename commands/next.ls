@@ -1,36 +1,29 @@
 require! {
-  \node-fetch : fetch
-  \../modules/config
-  \../modules/find-current-board
-  \./start
+  \../modules/boards
+  \../modules/cards
+  \../modules/check
 }
 
 module.exports =
-  command: \next
+  command: <[next n]>
   desc: "show doing card"
   handler: (argv) ->>
-    {login, current-board} = config.read!
-    unless login
-      console.error "has not logged in yet."
-      return
-    unless current-board
-      console.error "has not select current board yet."
-      return
+    check.login!
+    check.current-board!
     try
-      board = await find-current-board!
-
-      doing-list = board.lists.find (.name is \Doing)
-      doing-card = board.cards.find (.id-list is doing-list.id)
+      board = await boards.current!
+      doing-card = board.cards.find (.id-list)
+        >> (is board.lists.find (.name is \Doing) .id)
       if doing-card
         {name} = doing-card
         console.info name
         return
 
-      todo-list = board.lists.find (.name is "To Do")
-      todo-card = board.cards.find (.id-list is todo-list.id)
+      todo-card = board.cards.find (.id-list)
+        >> (is board.lists.find (.name is "To Do") .id)
       if todo-card
         {name, id-short} = todo-card
-        await start.handler {id: [id-short]}
+        await cards.move-list board, id-short, \Doing
         console.info name
         return
     catch

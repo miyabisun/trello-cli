@@ -1,5 +1,5 @@
 require! {
-  \node-fetch : fetch
+  \../modules/boards
   \../modules/config
 }
 
@@ -23,14 +23,12 @@ module.exports =
     if (!key or !token)
       console.error "not found api-key." unless key
       console.error "not found token." unless token
-      return
+      process.exit 1
     try
-      res = await fetch "https://api.trello.com/1/members/me/boards?fields=name&key=#{key}&token=#{token}"
-      throw res if res.status isnt 200
+      await boards.list {key, token}
       config.write \login, {key, token}
       console.log "login successful!"
     catch
-      console.error "status-code: #{e.status}"
-      console.error "reason: #{await res.text!}"
+      console.log e
       config.write \login, null
       console.log "login failed..."

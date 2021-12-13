@@ -1,26 +1,19 @@
 require! {
-  \node-fetch : fetch
-  ramda: R
-  \../modules/config
-  \../modules/find-current-board
-  \../modules/move-list
+  \../modules/boards
+  \../modules/cards
+  \../modules/check
 }
 
 module.exports =
-  command: "start <id...>"
+  command: ["start <id...>", "s <id...>"]
   desc: "move card to Doing list"
   handler: (argv) ->>
-    {login, current-board} = config.read!
-    unless login
-      console.error "has not logged in yet."
-      return
-    unless current-board
-      console.error "has not select current board yet."
-      return
+    check.login!
+    check.current-board!
     try
-      board = await find-current-board login, current-board
+      board = await boards.current!
       for id in argv.id
-        card = await move-list login, board, id, \Doing
+        card = await cards.move-list board, id, \Doing
         continue unless card
         console.info "#{card.name} is start."
     catch

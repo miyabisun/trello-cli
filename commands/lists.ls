@@ -1,22 +1,42 @@
 require! {
-  \node-fetch : fetch
   ramda: R
-  \../modules/config
+  \../modules/check
+  \../modules/boards
 }
 
 module.exports =
-  command: \lists
-  desc: "show boards"
+  command: <[lists ls]>
+  desc: "show cards in To Do and Doing list"
+  builder: (yargs) ->
+    yargs
+      .option \short,
+        alias: \s
+        description: "show short list"
+      .option \done,
+        alias: \d
+        description: "show Done cards"
   handler: (argv) ->>
-    {login, current-board} = config.read!
-    unless login
-      console.error "has not logged in yet."
-      return
+    check.login!
+    check.current-board!
     try
-      res = await fetch "https://api.trello.com/1/members/me/boards?fields=name&lists=open&key=#{login.key}&token=#{login.token}"
-      (await res.json!)
-      |> R.for-each (.name)
-        >> (R.if-else (is current-board?.name), ("* " +), ("  " +))
-        >> console.log
+      board = await boards.current!
+      [
+        [\Doing, \doing]
+        ["To Do", \todo]
+      ]
+      |> R.when do
+        -> argv.done
+        R.append [\Done, \done]
+      |> R.for-each ([list, short-list]) ->
+        cards = board.cards.filter (.id-list)
+          >> (is board.lists.find (.name is list) .id)
+        if cards.length
+          if argv.short
+            cards.for-each ({id-short, name}) ->
+              console.info "[#short-list] #id-short: #name"
+          else
+            console.info "=== #list tasks ==="
+            cards.for-each ({id-short, name}) ->
+              console.info "#id-short: #name"
     catch
       console.error e

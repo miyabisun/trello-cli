@@ -3,13 +3,15 @@ require! {
   \js-yaml : yaml
 }
 path = "#{process.env.HOME}/.todo.yml"
-load = ->
+state = cache: null
+reload = ->
   try
-    fs.read-file-sync path
-    |> yaml.load _
-    |> (or {})
+    state.cache = fs.read-file-sync path
+      |> yaml.load _
+      |> (or {})
   catch
     {}
+load = -> state.cache or reload!
 
 module.exports =
   read: load
@@ -18,7 +20,9 @@ module.exports =
     config.(key) = value
     yaml.dump config
     |> fs.write-file-sync path, _
+    reload!
   update: (obj) ->
-    (load! <<< obj)
+    ({} <<< load! <<< obj)
     |> yaml.dump _
     |> fs.write-file-sync path, _
+    reload!
