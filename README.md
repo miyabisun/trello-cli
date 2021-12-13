@@ -49,16 +49,16 @@ $ todo -h
 todo [コマンド]
 
 コマンド:
-  todo add <name...>  create card to To Do list
-  todo close [id...]  delete cards in Done list
-  todo done [id...]   move card to Done list
-  todo lists          show boards
+  todo add <name...>  create card to To Do list                  [エイリアス: a]
+  todo boards         show boards
+  todo close [id...]  delete cards                               [エイリアス: c]
+  todo done [id...]   move card to Done list                     [エイリアス: d]
+  todo lists          show cards in To Do and Doing list        [エイリアス: ls]
   todo login          try login and save to ~/.todo.yml
-  todo next           show doing card
-  todo pause <id...>  move card to To Do list
+  todo next           show doing card                            [エイリアス: n]
+  todo pause <id...>  move card to To Do list                    [エイリアス: p]
   todo select <name>  select current board
-  todo start <id...>  move card to Doing list
-  todo tasks          show cards in To Do and Doing list
+  todo start <id...>  move card to Doing list                    [エイリアス: s]
 
 オプション:
   -h, --help     ヘルプを表示                                             [真偽]
@@ -92,7 +92,7 @@ At this time, if the name of the Board already exists, three Lists will be gener
 
 ```bash
 # Check the Board list.
-$ todo lists
+$ todo boards
 
 # Create Board and select
 $ todo select test-board -i
@@ -107,6 +107,62 @@ create 'Done' list.
 selected board to test-board.
 
 # "*" is current Board
-$ todo lists
+$ todo boards
 * test-board
+```
+
+## card
+
+### create
+
+Now let's create a new card.  
+The card created by the command will be stored in the To Do list.
+
+```bash
+$ todo add "test-task"
+'test-task' is created (79).
+```
+
+### show cards
+
+You can check the list of cards you have created by using the following command.
+
+```bash
+$ todo
+[todo] 79: test-task
+
+# The above command is an alias for this
+$ todo ls -s
+[todo] 79: test-task
+```
+
+The number to the left of the card name indicates the card's ID.
+
+### start card
+
+Set catd to Doing.  
+Specify the ID set in the card.
+
+```bash
+$ todo start 79
+test-task is start.
+```
+
+### done card
+
+Move the completed card to the Done list.
+
+```bash
+$ todo done 79
+test-task is done.
+```
+
+### pause card
+
+Oh no, this card can't continue to work.  
+Let's put it back on the to-do list.
+
+```bash
+$ todo pause 79
+test-task is paused.
 ```
