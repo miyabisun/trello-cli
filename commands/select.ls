@@ -2,7 +2,6 @@ require! {
   \node-fetch : fetch
   ramda: R
   \../modules/config
-  \./init : {handler: initialize}
 }
 
 find-board = (login, name) ->>
