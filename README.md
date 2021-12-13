@@ -1,11 +1,11 @@
 # todo-cli
 
-This is a to-do management tool that uses the [Trello](https://trello.com/) service.
+This is a to-do management tool that uses the [Trello](https://trello.com/) service.  
 Node.js is used, and all operations can be performed from the command line.
 
 # installation
 
-dependencies Node.js and npm package module.
+dependencies Node.js and npm package module.  
 install Node.js and type this.
 
 ```bash
@@ -14,7 +14,7 @@ $ npm install -g https://github.com/miyabisun/todo-cli
 
 ## get Trello api-key and token
 
-First, log in to [Trello](https://trello.com/).
+First, log in to [Trello](https://trello.com/).  
 Then go to the [API Key for Developers](https://trello.com/app-key) page to receive your API key and token.
 
 Set it up as a ToDo tool with the following command.
@@ -29,7 +29,7 @@ $ ls -a ~ | grep todo
 
 ## uninstall
 
-To uninstall, delete `~/.todo.yml` file.
+To uninstall, delete `~/.todo.yml` file.  
 Then remove the package you installed with npm.
 
 ```bash
@@ -73,7 +73,7 @@ todo [コマンド]
 4. `todo done`
 5. `todo close -d`
 
-show subcommand `--help` options.
+show subcommand `--help` options.  
 eg. `todo init -h`
 
 ## set up current board
@@ -84,10 +84,10 @@ todo-cli will use Trello's Board, but will require the following List.
 - `Doing`
 - `Done`
 
-You can use the `todo select <Board name>` command to switch the target Board,
+You can use the `todo select <Board name>` command to switch the target Board,  
 but it will fail if these Lists do not exist.
 
-Use the `todo select <new Board name> -i` command to create a Board.
+Use the `todo select <new Board name> -i` command to create a Board.  
 At this time, if the name of the Board already exists, three Lists will be generated in the Board.
 
 ```bash
