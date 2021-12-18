@@ -52,13 +52,16 @@ todo [コマンド]
   todo add <name...>  create card to To Do list                  [エイリアス: a]
   todo boards         show boards
   todo close [id...]  delete cards                               [エイリアス: c]
-  todo done [id...]   move card to Done list                     [エイリアス: d]
+  todo d              [tty] move card to Done list
+  todo done <id...>   move card to Done list
   todo list           show cards in To Do and Doing list        [エイリアス: ls]
   todo login          try login and save to ~/.todo.yml
   todo next           show doing card                            [エイリアス: n]
-  todo pause <id...>  move card to To Do list                    [エイリアス: p]
+  todo p              [tty] move card to To Do list
+  todo pause <id...>  move card to To Do list
+  todo s              [tty] move card to Doing list
   todo select <name>  select current board
-  todo start <id...>  move card to Doing list                    [エイリアス: s]
+  todo start <id...>  move card to Doing list
 
 オプション:
   -h, --help     ヘルプを表示                                             [真偽]
@@ -165,4 +168,27 @@ Let's put it back on the to-do list.
 ```bash
 $ todo pause 79
 test-task is paused.
+```
+
+### I don't want to type card-id.
+
+Short commands are available.  
+That set of commands will take care of entering the card's ID for you, just like FZF.
+
+- `todo s`: like `todo start`.
+- `todo p`: like `todo pause`.
+- `todo d`: like `todo done`.
+
+use [node-fzf](https://www.npmjs.com/package/node-fzf) module.
+
+```bash
+$ todo s
+>
+  2/2 fuzzy mode ctrl-s [0]
+> [To Do] 2: task-b
+  [Done] 1: task-a
+
+# push Enter key
+
+task-b is start.
 ```
