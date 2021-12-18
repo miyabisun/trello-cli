@@ -1,6 +1,6 @@
 require! {
+  ramda: R
   \../modules/boards
-  \../modules/cards
   \../modules/check
 }
 
@@ -12,19 +12,13 @@ module.exports =
     check.current-board!
     try
       board = await boards.current!
-      doing-card = board.cards.find (.id-list)
-        >> (is board.lists.find (.name is \Doing) .id)
-      if doing-card
-        {name} = doing-card
-        console.info name
-        return
-
-      todo-card = board.cards.find (.id-list)
-        >> (is board.lists.find (.name is "To Do") .id)
-      if todo-card
-        {name, id-short} = todo-card
-        await cards.move-list board, id-short, \Doing
-        console.info name
-        return
+      lists = board.lists.reduce (obj, {id, name}) -> {...obj, "#id": name}, {}
+      board.cards
+        |> R.map -> {...it, board-name: lists.(it.id-list)}
+        |> R.juxt [\Doing, "To Do"].map (name) ->
+          (.find (.board-name is name))
+        |> R.find R.identity
+        |> (?.name)
+        |> console.log
     catch
       console.error e
