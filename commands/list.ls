@@ -5,7 +5,7 @@ require! {
 }
 
 module.exports =
-  command: <[lists ls]>
+  command: <[list ls]>
   desc: "show cards in To Do and Doing list"
   builder: (yargs) ->
     yargs

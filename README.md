@@ -53,7 +53,7 @@ todo [コマンド]
   todo boards         show boards
   todo close [id...]  delete cards                               [エイリアス: c]
   todo done [id...]   move card to Done list                     [エイリアス: d]
-  todo lists          show cards in To Do and Doing list        [エイリアス: ls]
+  todo list           show cards in To Do and Doing list        [エイリアス: ls]
   todo login          try login and save to ~/.todo.yml
   todo next           show doing card                            [エイリアス: n]
   todo pause <id...>  move card to To Do list                    [エイリアス: p]

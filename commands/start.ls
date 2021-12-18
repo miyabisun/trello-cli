@@ -5,7 +5,7 @@ require! {
 }
 
 module.exports =
-  command: ["start <id...>", "s <id...>"]
+  command: "start <id...>"
   desc: "move card to Doing list"
   handler: (argv) ->>
     check.login!

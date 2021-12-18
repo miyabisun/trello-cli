@@ -4,7 +4,7 @@ const {hideBin} = require("yargs/helpers");
 require("livescript");
 
 const argv = hideBin(process.argv);
-yargs(argv.length ? argv : ["lists", "-s"])
+yargs(argv.length ? argv : ["ls", "-s"])
   .commandDir("commands", {
     extensions: ["ls"]
   })
